@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Profilul Meu</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ======== PROFILE CARD ======== */
+        .profile-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        .profile-card {
+            background: rgba(27,27,27,0.95);
+            padding: 40px 30px;
+            border-radius: 15px;
+            border: 2px solid #ff7b00;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.8);
+        }
+
+        .profile-card h1 {
+            color: #ff7b00;
+            margin-bottom: 20px;
+        }
+
+        /* ======== POZA PROFIL ======== */
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid #ff7b00;
+            margin-bottom: 20px;
+            object-fit: cover;
+        }
+
+        /* ======== INFO ======== */
+        .profile-card p {
+            color: #fff;
+            font-size: 16px;
+            margin: 8px 0;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+        }
+
+        .profile-card strong {
+            color: #ff7b00;
+        }
+
+        /* ======== BUTON INAPOI ======== */
+        #backBtn {
+            display: inline-block;
+            margin-top: 25px;
+            background: #ff7b00;
+            color: #111;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        #backBtn:hover {
+            background: #ffa43a;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body class="profile-body">
+
+<div class="navbar">
+    <h2>Profilul <span>Meu</span></h2>
+</div>
+
+<div class="profile-container">
+    <div class="profile-card">
+        <img src="poze/poza_profil.png" alt="Profil" class="profile-pic" onerror="this.src='https://via.placeholder.com/120'">
+
+        <h1>Informații Client</h1>
+
+        <p><strong>ID Client:</strong> <span id="pid">Încărcare...</span></p>
+        <p><strong>Nume:</strong> <span id="pnume">Încărcare...</span></p>
+        <p><strong>Email:</strong> <span id="pemail">Încărcare...</span></p>
+        <p><strong>Telefon:</strong> <span id="ptel">Încărcare...</span></p>
+
+        <a class="btn" id="backBtn">⬅ Înapoi la Home</a>
+    </div>
+</div>
+
+<script>
+    // 1. Recuperare ID (URL sau LocalStorage)
+    const params = new URLSearchParams(window.location.search);
+    let id = params.get("id_client") || localStorage.getItem("id_client");
+
+    if (!id) {
+        alert("Sesiune invalidă!");
+        window.location.href = "login.html";
+    } else {
+        // Salvăm în memorie în caz că am venit dintr-un link direct
+        localStorage.setItem("id_client", id);
+    }
+
+    // 2. Configurare buton înapoi
+    document.getElementById("backBtn").href = `home.html?id_client=${id}`;
+
+    // 3. Încărcare date din API
+    async function fetchProfile() {
+        try {
+            const response = await fetch(`/api/client/${id}`);
+            if (!response.ok) throw new Error("Clientul nu a fost găsit");
+            
+            const data = await response.json();
+            
+            document.getElementById("pid").textContent = data.Id_client;
+            document.getElementById("pnume").textContent = data.Nume;
+            document.getElementById("pemail").textContent = data.Rmail;
+            document.getElementById("ptel").textContent = data.Telefon || "Nespecificat";
+        } catch (err) {
+            console.error(err);
+            document.querySelector(".profile-card").innerHTML = `
+                <h2 style="color:red">Eroare la încărcare date</h2>
+                <a href="login.html" class="btn">Înapoi la Login</a>
+            `;
+        }
+    }
+
+    fetchProfile();
+</script>
+
+</body>
+</html>

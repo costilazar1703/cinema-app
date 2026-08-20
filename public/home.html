@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Acasă - Cinema City</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="page-body">
+
+<div class="navbar">
+    <h2>Cinema <span>City</span></h2>
+</div>
+
+<div class="content">
+    <h1 id="welcomeMsg" class="page-title">Bun venit la Cinema!</h1>
+    
+    <div class="main-banner">
+        <div class="banner-bg"></div>
+        
+        <div class="menu-overlay">
+            <a class="menu-btn" id="linkFilme" href="#">🎬 Filme</a>
+            <a class="menu-btn" id="linkRez" href="#">🎟️ Rezervări</a>
+            <a class="menu-btn" id="linkProf" href="#">👤 Profil</a>
+            <a class="menu-btn logout" href="login.html">Logout</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 1. Gestionare ID Client pentru persistență
+    const params = new URLSearchParams(window.location.search);
+    let id = params.get("id_client");
+
+    // Dacă avem ID în URL, îl salvăm. Dacă nu, îl recuperăm din memorie.
+    if (id) {
+        localStorage.setItem("id_client", id);
+    } else {
+        id = localStorage.getItem("id_client");
+    }
+
+    // Redirecționare la login dacă nu există nicio sesiune activă
+    if (!id) {
+        alert("Sesiune expirată! Te rugăm să te autentifici.");
+        window.location.href = "login.html";
+    }
+
+    // 2. Actualizarea link-urilor butoanelor pentru a purta ID-ul mai departe
+    document.getElementById("linkFilme").href = `filme.html?id_client=${id}`;
+    document.getElementById("linkRez").href = `rezervarile_mele.html?id_client=${id}`;
+    document.getElementById("linkProf").href = `profil.html?id_client=${id}`;
+
+    // 3. Preluarea numelui clientului din baza de date
+    fetch(`/api/client/${id}`)
+        .then(res => res.json())
+        .then(data => {
+            if(data.Nume) {
+                document.getElementById("welcomeMsg").innerText = `Salut, ${data.Nume}!`;
+            }
+        })
+        .catch(err => console.log("Eroare la încărcarea datelor clientului:", err));
+</script>
+
+</body>
+</html>

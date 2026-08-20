@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Detalii Film</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Buton Înapoi */
+        #btnInapoi {
+            margin-top: 20px;
+            padding: 12px 25px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            background: #ff7b00;
+            color: #111;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #btnInapoi:hover {
+            background: #ffa43a;
+            transform: translateY(-2px);
+        }
+
+        .card-large .btn {
+            margin: 5px 5px 0 0;
+        }
+    </style>
+</head>
+<body class="page-body">
+
+<div class="navbar"><h2>Cinema <span>City</span></h2></div>
+
+<div id="film"></div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+async function loadFilm() {
+    const res = await fetch(`/api/film/${id}`);
+    const data = await res.json();
+
+    document.getElementById("film").innerHTML = `
+        <div class="card-large">
+            <h1>${data.film.Titlu}</h1>
+            <p><b>Gen:</b> ${data.film.Gen}</p>
+            <p><b>Durata:</b> ${data.film.Durata} min</p>
+            <p><b>Descriere:</b> ${data.film.Descriere}</p>
+
+            <h3>Săli disponibile:</h3>
+
+            ${data.sali.map(s => `
+                <a class="btn"
+                   href="rezervare.html?id_film_sala=${s.Id_film_sala}&id_sala=${s.Id_sala}">
+                    ${s.NumeSala} (${s.Tip_film})
+                </a>
+            `).join("")}
+
+            <!-- Buton Înapoi -->
+            <button id="btnInapoi">⬅ Înapoi la Filme</button>
+        </div>
+    `;
+
+    // Adaugă funcționalitate la butonul Înapoi
+    document.getElementById('btnInapoi').addEventListener('click', () => {
+        window.history.back(); // merge la pagina precedentă
+        // Sau fix către filme.html: window.location.href = `filme.html`;
+    });
+}
+
+loadFilm();
+</script>
+
+</body>
+</html>

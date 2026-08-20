@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Cinema</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ======== SPECIFIC LOGIN MODERN ======== */
+        body {
+            background: url('poze/images4.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background: rgba(27,27,27,0.85); /* transparent dark */
+            border: 2px solid #ff7b00;
+            border-radius: 12px;
+            padding: 40px 30px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0,0,0,0.6);
+            position: relative;
+        }
+
+        .login-container h2 {
+            font-size: 28px;
+            color: #ff7b00;
+            margin-bottom: 25px;
+            text-shadow: 0 0 6px #ff7b00;
+        }
+
+        .login-container input {
+            width: 90%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ff7b00;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .login-container input:focus {
+            border-color: #ffa43a;
+            box-shadow: 0 0 8px #ff7b00;
+        }
+
+        .login-container button {
+            width: 95%;
+            padding: 12px;
+            background: #ff7b00;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            color: #111;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .login-container button:hover {
+            background: #ffa43a;
+            transform: translateY(-2px);
+        }
+
+        /* mici poze decorative */
+        .decor-img {
+            position: absolute;
+            width: 60px;
+            opacity: 0.8;
+        }
+
+    .decor1 {
+    top: -160px;
+    left: -130px;
+    width: 200px;          /* mai mare decât celelalte */
+    transform: rotate(-30deg);  /* înclinare spre stânga */
+    opacity: 0.85;}
+        .decor2 {
+    top: -5Px;
+    left: 170px;
+    width: 100px;          /* mai mare decât celelalte */
+    opacity:1;}
+        .decor3 { top: -160px;
+    left: 328px;
+    top: -102px;
+    width: 200px;          /* mai mare decât celelalte */
+    transform: rotate(10deg);  /* înclinare spre stânga */
+    opacity: 0.85;}
+</style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Autentificare</h2>
+
+        <!-- Imagini decorative -->
+        <img src="poze/images.png" class="decor-img decor1" alt="">
+        <img src="poze/images3.png" class="decor-img decor3" alt="">
+
+        <form action="/login" method="POST">
+            <input type="text" name="nume" placeholder="Nume complet" required><br>
+            <input type="text" name="rmail" placeholder="Email (parola)" required><br>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+</body>
+</html>

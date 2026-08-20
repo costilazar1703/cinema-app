@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Filme - Cinema</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ======== GRID FILME ======== */
+        #filme {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            padding: 20px;
+        }
+
+        /* ======== CARD FILM ======== */
+        .film-card {
+            background: #111;
+            color: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .film-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255, 123, 0, 0.3);
+        }
+
+        .film-card img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border-bottom: 2px solid #ff7b00;
+        }
+
+        .film-info {
+            padding: 15px;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .film-info h3 {
+            margin: 0 0 10px 0;
+            color: #ff7b00;
+        }
+    </style>
+</head>
+<body class="page-body">
+
+<div class="navbar"><h2>Cinema <span>City</span></h2></div>
+
+<h1 class="page-title">Lista Filmelor</h1>
+
+<div id="filme"></div>
+
+<div style="text-align:center; margin:30px 0;">
+    <a id="backBtn" class="btn">⬅ Înapoi la Home</a>
+</div>
+
+<script>
+    // 1. Gestionare ID Client
+    const params = new URLSearchParams(window.location.search);
+    let id_client = params.get("id_client") || localStorage.getItem("id_client");
+
+    if (id_client) {
+        localStorage.setItem("id_client", id_client);
+    } else {
+        alert("Sesiune expirată!");
+        window.location.href = "login.html";
+    }
+
+    // 2. Buton înapoi corect
+    document.getElementById("backBtn").href = `home.html?id_client=${id_client}`;
+
+    // 3. Încărcare Filme din API
+    async function loadFilme() {
+        try {
+            const res = await fetch('/api/filme');
+            const filme = await res.json();
+
+            const grid = document.getElementById('filme');
+            grid.innerHTML = filme.map(f => `
+                <div class="film-card">
+                    <img src="${f.Poza}" alt="${f.Titlu}" onerror="this.src='https://via.placeholder.com/250x350?text=Fara+Imagine'">
+                    <div class="film-info">
+                        <div>
+                            <h3>${f.Titlu}</h3>
+                            <p>${f.Gen}</p>
+                            <p><small>${f.Durata} minute</small></p>
+                        </div>
+                        <a href="film.html?id=${f.Id_film}&id_client=${id_client}" class="btn">Vezi Săli & Rezervă</a>
+                    </div>
+                </div>
+            `).join("");
+        } catch (err) {
+            console.error("Eroare la incarcare filme:", err);
+            document.getElementById('filme').innerHTML = "<p>Eroare la încărcarea listei de filme.</p>";
+        }
+    }
+
+    loadFilme();
+</script>
+
+</body>
+</html>

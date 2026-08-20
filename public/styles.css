@@ -1,0 +1,329 @@
+/* ======== FONT & BASE ======== */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #111;
+    color: #fff;
+}
+
+/* ======== NAVBAR ======== */
+.navbar {
+    background: #000;
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #ff7b00;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+}
+
+.navbar h2 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.navbar span {
+    color: #ff7b00;
+}
+
+/* ======== GENERAL PAGE LAYOUT ======== */
+.page-body {
+    padding: 20px;
+}
+
+.page-title {
+    text-align: center;
+    color: #ff7b00;
+    margin-top: 20px;
+    font-size: 32px;
+    letter-spacing: 1px;
+}
+
+/* ======== BUTTONS ======== */
+.btn {
+    background: #ff7b00;
+    color: #111;
+    padding: 10px 16px;
+    display: inline-block;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: 0.2s;
+    margin-top: 10px;
+}
+
+.btn:hover {
+    background: #ffa43a;
+    transform: translateY(-2px);
+}
+
+/* ======== MENU BUTTONS (HOME) ======== */
+.menu {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 50px;
+    gap: 20px;
+}
+
+.menu-btn {
+    background: #222;
+    border: 2px solid #ff7b00;
+    padding: 20px 35px;
+    border-radius: 10px;
+    font-size: 20px;
+    text-decoration: none;
+    color: #ff7b00;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.menu-btn:hover {
+    background: #ff7b00;
+    color: #111;
+    transform: scale(1.05);
+}
+
+/* ======== CARDS ======== */
+.card {
+    background: #1b1b1b;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    transition: 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    border-color: #ff7b00;
+}
+
+.card h3 {
+    margin-top: 0;
+    color: #ff7b00;
+}
+
+.card-large {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #1a1a1a;
+    border-radius: 12px;
+    border: 1px solid #333;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+/* ======== GRID ======== */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 25px;
+    padding: 20px;
+}
+
+/* ======== TABLE ======== */
+.table {
+    width: 95%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: #1b1b1b;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+.table th {
+    background: #ff7b00;
+    padding: 12px;
+    color: #111;
+    font-weight: 700;
+}
+
+.table td {
+    padding: 12px;
+    border-bottom: 1px solid #333;
+    text-align: center;
+}
+
+.table tr:hover {
+    background: #222;
+}
+
+/* ======== SEATS (LOCURI) ======== */
+.seat {
+    cursor: pointer;
+    transition: 0.3s;
+    background: #161616;
+    border: 2px solid #444;
+}
+
+.seat:hover {
+    border-color: #ff7b00;
+    transform: scale(1.05);
+}
+
+.seat.ocupat {
+    background: #440000;
+    border-color: #aa0000;
+    cursor: not-allowed;
+}
+
+/* ======== INPUTS ======== */
+input {
+    padding: 10px;
+    width: 250px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border: 1px solid #ff7b00;
+    outline: none;
+    background: #111;
+    color: white;
+}
+
+input:focus {
+    border-color: #ffa43a;
+}
+
+/* ======== LOGIN PAGE SPECIFIC ======== */
+.login-container {
+    max-width: 380px;
+    margin: 100px auto;
+    padding: 30px;
+    background: #1b1b1b;
+    border-radius: 10px;
+    border: 1px solid #333;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(0,0,0,0.6);
+}
+
+.login-container h2 {
+    color: #ff7b00;
+    margin-bottom: 20px;
+}
+
+/* ======== LINKS ======== */
+a {
+    color: #ff7b00;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ffa43a;
+}
+
+/* ======== ANIMATION ======== */
+@keyframes glow {
+    0% { box-shadow: 0 0 10px #ff7b00; }
+    50% { box-shadow: 0 0 20px #ffae42; }
+    100% { box-shadow: 0 0 10px #ff7b00; }
+}
+
+.glow {
+    animation: glow 1.5s infinite alternate;
+}
+
+/* ======== FIX GRID 6x6 REZERVARE ======== */
+#locuri {
+    display: grid !important;
+    grid-template-columns: repeat(6, 1fr) !important; 
+    gap: 12px;
+    margin: 30px auto;
+    width: 100%;
+    max-width: 450px; 
+    justify-items: center;
+}
+
+.seat-card {
+    width: 60px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    padding: 0 !important;
+    margin: 0;
+}
+.btn-delete {
+    background: #440000;
+    color: #ff3333;
+    border: 1px solid #ff3333;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: 0.2s;
+}
+
+.btn-delete:hover {
+    background: #ff3333;
+    color: #fff;
+}/* ======== BANNER CENTRAL HOME ======== */
+.main-banner {
+    position: relative;
+    max-width: 900px;
+    height: 450px;
+    margin: 40px auto;
+    border: 3px solid #ff7b00; /* Rama portocalie */
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 25px rgba(255, 123, 0, 0.2);
+}
+
+.banner-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('poze/home.png') no-repeat center center;
+    background-size: cover;
+    opacity: 0.3; /* Transparența de 30% */
+    z-index: 1;
+}
+
+.menu-overlay {
+    position: relative;
+    z-index: 2; /* Pune butoanele deasupra pozei */
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Stil ajustat pentru butoanele de pe home */
+.menu-overlay .menu-btn {
+    background: rgba(0, 0, 0, 0.979); /* Fundal semi-transparent pentru butoane */
+    min-width: 180px;
+    text-align: center;
+}
+
+.menu-overlay .logout {
+    border-color: #ff3333;
+    color: #ff3333;
+}
+
+.menu-overlay .logout:hover {
+    background: #ff3333;
+    color: #fff;
+}
+/* Modifică această secțiune în styles.css */
+.menu-btn:hover {
+    background: #ff7b00;
+    color: #fff; /* Schimbat din #111 în #fff pentru text alb */
+    transform: scale(1.05);
+}
+
+/* Dacă vrei să fii sigur că se aplică și butoanelor din banner-ul nou */
+.menu-overlay .menu-btn:hover {
+    color: #fff !important;
+}

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Rezervările Mele - Cinema City</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Stil specific pentru butonul de anulare */
+        .btn-delete {
+            background: #2a0000;
+            color: #ff4444;
+            border: 1px solid #ff4444;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-delete:hover {
+            background: #ff4444;
+            color: #fff;
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+        }
+
+        /* Stil pentru tabel (asigurăm lizibilitate) */
+        .table td {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body class="page-body">
+
+<div class="navbar">
+    <h2>Cinema <span>City</span></h2>
+</div>
+
+<h1 class="page-title">Istoric Rezervări</h1>
+
+<div id="container-rezervari">
+    <table id="tbl" class="table">
+        </table>
+</div>
+
+<div style="text-align:center; margin-top:30px;">
+    <a id="backBtn" class="btn">⬅ Înapoi la Home</a>
+</div>
+
+<script>
+    // 1. Gestionare ID Client (URL + Persistență LocalStorage)
+    const params = new URLSearchParams(window.location.search);
+    let id_client = params.get("id_client") || localStorage.getItem("id_client");
+
+    if (id_client) {
+        localStorage.setItem("id_client", id_client);
+    } else {
+        alert("Sesiune expirată! Te rugăm să te loghezi din nou.");
+        window.location.href = "login.html";
+    }
+
+    // Setăm link-ul butonului înapoi
+    document.getElementById("backBtn").href = `home.html?id_client=${id_client}`;
+
+    // 2. Funcție pentru încărcarea rezervărilor din DB
+    async function loadRezervari() {
+        const table = document.getElementById("tbl");
+        const container = document.getElementById("container-rezervari");
+
+        try {
+            const res = await fetch(`/api/rezervarile_mele/${id_client}`);
+            const rezervari = await res.json();
+
+            if (!rezervari || rezervari.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center; padding:50px;">
+                        <p style="font-size:18px; color:#888;">Nu ai nicio rezervare activă momentan.</p>
+                        <a href="filme.html?id_client=${id_client}" class="btn" style="margin-top:20px;">🎬 Rezervă primul tău film</a>
+                    </div>`;
+                return;
+            }
+
+            let html = `
+                <thead>
+                    <tr>
+                        <th>Film</th>
+                        <th>Sala</th>
+                        <th>Locul</th>
+                        <th>Data</th>
+                        <th>Cod Bilet</th>
+                        <th>Status</th>
+                        <th>Acțiuni</th>
+                    </tr>
+                </thead>
+                <tbody>
+            `;
+
+            rezervari.forEach(r => {
+                const dataSimpla = r.Data_rezervare ? r.Data_rezervare.substring(0, 10) : "N/A";
+                
+                html += `
+                    <tr id="row-${r.Id_rezervare}">
+                        <td style="color: #ff7b00; font-weight: 700;">${r.Titlu}</td>
+                        <td>${r.NumeSala}</td>
+                        <td>R${r.Rand}, L${r.Numar}</td>
+                        <td>${dataSimpla}</td>
+                        <td style="font-family: monospace; letter-spacing: 1px;">${r.Cod_bilet}</td>
+                        <td style="color: #00ff00; font-weight: bold;">${r.Status}</td>
+                        <td>
+                            <button class="btn-delete" onclick="anuleazaRezervare(${r.Id_rezervare})">
+                                🗑️ Anulează
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `</tbody>`;
+            table.innerHTML = html;
+
+        } catch (err) {
+            console.error("Eroare la încărcare:", err);
+            container.innerHTML = "<p style='text-align:center; color:red;'>Eroare la comunicarea cu serverul.</p>";
+        }
+    }
+
+    // 3. Funcția pentru anularea rezervării (Ștergere din DB)
+    async function anuleazaRezervare(id_rezervare) {
+        if (!confirm("Sigur vrei să anulezi această rezervare? Această acțiune este ireversibilă.")) {
+            return;
+        }
+
+        try {
+            const res = await fetch(`/api/anuleaza_rezervare/${id_rezervare}`, {
+                method: 'DELETE'
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                alert("Rezervarea a fost anulată cu succes!");
+                // Reîncărcăm tabelul pentru a reflecta schimbările
+                loadRezervari();
+            } else {
+                alert("Eroare: " + (data.error || "Nu s-a putut anula rezervarea."));
+            }
+        } catch (err) {
+            console.error("Eroare la anulare:", err);
+            alert("Eroare de server la anularea rezervării.");
+        }
+    }
+
+    // Inițializare pagină
+    loadRezervari();
+</script>
+
+</body>
+</html>
