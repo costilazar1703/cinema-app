@@ -1,25 +1,24 @@
-# Cinema Booking Management System 🎬
+# Cinema Booking Management System
 
-A full-stack web application designed for managing cinema ticket reservations efficiently. This project demonstrates real-time data processing, RESTful API integration, and robust relational database management.
+A full-stack web app for booking cinema tickets: a Node.js/Express backend, a SQL Server database and an HTML/CSS frontend.
 
-## 🚀 Features
-- **Real-Time Seat Management:** Dynamic visualization of seat availability directly connected to the database.
-- **Booking System:** Secure API endpoints for processing user reservations and updating row/seat statuses.
-- **Database Security:** Parameterized SQL queries to prevent SQL injection and ensure transaction integrity.
-- **Intuitive UI:** Clean HTML/CSS frontend integrated with the backend for a seamless user experience.
+## Features
+- **Seat availability:** the seat map is read live from the database.
+- **Bookings:** API endpoints that save the reservation and update the seat status.
+- **Database safety:** parameterized SQL queries against SQL injection, and the booking is done in a transaction so the data stays consistent.
+- **Frontend:** simple HTML/CSS pages connected to the backend.
 
-## 🛠️ Tech Stack
+## Tech stack
 - **Backend:** Node.js, Express.js
-- **Database:** Microsoft SQL Server Express (managed via SSMS)
+- **Database:** Microsoft SQL Server Express (managed with SSMS)
 - **Frontend:** HTML5, CSS3
 
-## ⚙️ Prerequisites
-To run this project locally, you will need:
-- [Node.js](https://nodejs.org/) installed on your machine.
-- [SQL Server Express](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) and SSMS for database management.
+## Requirements
+- [Node.js](https://nodejs.org/)
+- [SQL Server Express](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) and SSMS
 
-## 💻 Getting Started
-
-1. **Clone the repository:**
+## Getting started
+1. Clone the repository:
    ```bash
-   git clone [https://github.com/costilazar1703/cinema-app.git](https://github.com/costilazar1703/cinema-app.git)
+   git clone https://github.com/costilazar1703/cinema-app.git
+   ```
